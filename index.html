@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANTI HERO — Press Kit 2026</title>
+<meta name="description" content="Anti Hero é o projeto de Tech House e suas vertentes do DJ e produtor Pedro Pinheiro. Estado do Rio de Janeiro.">
+<meta name="theme-color" content="#060608">
+<meta property="og:title" content="ANTI HERO — Press Kit 2026">
+<meta property="og:description" content="Anti Hero é o projeto de Tech House e suas vertentes do DJ e produtor Pedro Pinheiro.">
+<meta property="og:image" content="assets/img/antihero-05.jpg">
+
+<!-- Fontes (mesma dupla do press kit LOWZZADA) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:wght@300;400;500&display=swap">
+
+<!-- O poster começa a baixar antes de tudo -->
+<link rel="preload" as="image" href="assets/video/poster.jpg" fetchpriority="high">
+
+<script>
+  // Sempre abrir no topo (no vídeo), nunca no meio da página ao recarregar
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  document.documentElement.classList.add('js');
+</script>
+
+<style>
+/* ═════════════════════════════════════════════════════
+   BASE — paleta preto/prata (cromo do logo) + vermelho da capa
+═════════════════════════════════════════════════════ */
+:root{
+  --bg:#060608;
+  --bg2:#0e0e11;
+  --bg3:#17171c;
+  --fg:#f4f4f8;
+  --mut:rgba(244,244,248,.62);
+  --dim:rgba(244,244,248,.38);
+  --acc:#c6c6d0;          /* prata */
+  --accH:#e8e8f0;
+  --red:#f80000;          /* vermelho da capa */
+  --bdr:rgba(255,255,255,.07);
+  --bdr2:rgba(255,255,255,.13);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --pad:clamp(20px,5vw,72px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{background:var(--bg);color:var(--fg);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--acc);color:var(--bg)}
+:focus-visible{outline:1px solid var(--acc);outline-offset:4px}
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg3)}
+
+.sw{max-width:1320px;margin:0 auto;padding:120px var(--pad)}
+.lbl{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+.lbl::before{content:"";width:34px;height:1px;background:var(--acc)}
+.sec-h{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(56px,8vw,120px);line-height:.9;letter-spacing:.01em;text-transform:uppercase}
+.sec-h em,.bio-h em,.bk-h em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--acc)}
+.hr{border:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}
+
+/* reveal ao rolar — só opacity/transform (GPU) */
+.rv{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}
+html:not(.js) .rv{opacity:1;transform:none}
+
+/* ═════════════════════════════════════════════════════
+   NAV
+═════════════════════════════════════════════════════ */
+#nav{
+  position:fixed;inset:0 0 auto;z-index:700;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+  padding:26px var(--pad);transition:padding .45s,background .45s;
+}
+#nav.solid{padding:14px var(--pad);background:rgba(6,6,8,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--bdr)}
+.nav-logo img{height:34px;width:auto;transition:opacity .3s}
+.nav-logo:hover img{opacity:.7}
+.nav-links{justify-self:end;display:flex;align-items:center;gap:34px;font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase}
+.nav-links a{position:relative;padding:6px 0;color:var(--mut);transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav-links a:hover{color:var(--fg)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-links .nav-cta{border:1px solid var(--bdr2);padding:11px 20px;color:var(--fg)}
+.nav-links .nav-cta::after{display:none}
+.nav-links .nav-cta:hover{border-color:var(--acc)}
+.burger{display:none;grid-column:3;width:44px;height:44px;flex-direction:column;justify-content:center;align-items:flex-end;gap:6px}
+.burger span{display:block;height:1px;background:var(--fg);transition:transform .4s var(--ease),opacity .3s,width .3s}
+.burger span:nth-child(1){width:26px}.burger span:nth-child(2){width:18px}.burger span:nth-child(3){width:22px}
+.menu-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg);width:24px}
+.menu-open .burger span:nth-child(2){opacity:0}
+.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg);width:24px}
+#drawer{
+  position:fixed;inset:0;z-index:650;background:rgba(6,6,8,.97);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:22px;
+  opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s;
+}
+.menu-open #drawer{opacity:1;visibility:visible;transition:opacity .45s}
+#drawer a{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:.04em;color:var(--mut);transform:translateY(20px);opacity:0;transition:transform .6s var(--ease),opacity .6s,color .3s}
+.menu-open #drawer a{transform:none;opacity:1}
+.menu-open #drawer a:nth-child(2){transition-delay:.05s}.menu-open #drawer a:nth-child(3){transition-delay:.1s}
+.menu-open #drawer a:nth-child(4){transition-delay:.15s}.menu-open #drawer a:nth-child(5){transition-delay:.2s}
+#drawer a:hover{color:var(--fg)}
+
+/* ═════════════════════════════════════════════════════
+   HERO — vídeo em tela cheia, toca sozinho
+═════════════════════════════════════════════════════ */
+#hero{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;background:#000 url("assets/video/poster.jpg") center/cover no-repeat}
+#hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+/* véu: escurece topo e base para leitura, sem apagar o vídeo */
+.hero-veil{position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(6,6,8,.72) 0%,rgba(6,6,8,.08) 26%,rgba(6,6,8,.08) 62%,rgba(6,6,8,.9) 100%),
+    radial-gradient(120% 80% at 50% 50%,transparent 55%,rgba(6,6,8,.55) 100%);
+}
+.hero-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:clamp(110px,17vh,170px) var(--pad) clamp(96px,15vh,150px);text-align:center;pointer-events:none}
+.hero-body > *{pointer-events:auto}
+/* o título é o próprio logo cromado do vídeo; no celular (vídeo cortado) mostramos o PNG */
+#heroName{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.hero-logo-m{display:none}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;opacity:0;animation:up 1.2s var(--ease) 1.8s forwards}
+.btn-line{
+  position:relative;display:inline-flex;align-items:center;gap:12px;min-height:50px;padding:0 30px;
+  border:1px solid var(--bdr2);background:rgba(6,6,8,.25);font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;overflow:hidden;isolation:isolate;
+  transition:border-color .4s,color .4s;
+}
+.btn-line::before{content:"";position:absolute;inset:0;background:var(--fg);transform:translateY(101%);transition:transform .55s var(--ease);z-index:-1}
+.btn-line:hover{color:var(--bg);border-color:var(--fg)}
+.btn-line:hover::before{transform:none}
+.btn-line.red::before{background:var(--red)}
+.btn-line.red:hover{color:#fff;border-color:var(--red)}
+.hero-scroll{position:absolute;left:var(--pad);bottom:34px;display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
+.scroll-rod{width:60px;height:1px;background:var(--bdr2);position:relative;overflow:hidden}
+.scroll-rod::after{content:"";position:absolute;inset:0;width:40%;background:var(--acc);animation:rod 2.2s var(--ease) infinite}
+@keyframes rod{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.mute-toggle{position:absolute;right:var(--pad);bottom:24px;width:46px;height:46px;border:1px solid var(--bdr2);border-radius:50%;display:grid;place-items:center;color:var(--accH);background:rgba(6,6,8,.35);transition:border-color .3s,background .3s}
+.mute-toggle:hover{border-color:var(--acc);background:rgba(6,6,8,.6)}
+.mute-toggle svg{width:18px;height:18px}
+.mute-toggle .icon-on{display:none}
+.mute-toggle[aria-pressed="true"] .icon-on{display:block}
+.mute-toggle[aria-pressed="true"] .icon-off{display:none}
+.mute-toggle[aria-pressed="true"]{border-color:var(--red)}
+.mute-toggle.dock{position:fixed;left:22px;right:auto;bottom:22px;z-index:600;background:rgba(6,6,8,.75)}
+
+/* WhatsApp flutuante (aparece depois do hero) */
+#wa-float{position:fixed;right:22px;bottom:22px;z-index:600;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translateY(120px);transition:transform .6s var(--ease)}
+#wa-float.show{transform:none}
+#wa-float svg{width:26px;height:26px}
+
+/* ═════════════════════════════════════════════════════
+   BIO
+═════════════════════════════════════════════════════ */
+.bio-sw{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,6vw,100px);align-items:center}
+.bio-h{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(64px,9vw,140px);line-height:.92;text-transform:uppercase;margin-bottom:44px}
+.bio-h .b-d{display:block;overflow:hidden}
+.bio-h .b-d > span{display:block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.bio-h .b-d:nth-child(2){padding-left:.9em}
+.bio-h .b-d:nth-child(3){padding-left:.35em}
+.bio-h.in .b-d > span{transform:none}
+.bio-h.in .b-d:nth-child(2) > span{transition-delay:.1s}
+.bio-h.in .b-d:nth-child(3) > span{transition-delay:.2s}
+html:not(.js) .bio-h .b-d > span{transform:none}
+.bio-p{font-size:clamp(16px,1.2vw,18px);line-height:1.85;color:var(--mut);margin-bottom:20px;max-width:56ch}
+.bio-p strong{color:var(--fg);font-weight:400}
+.photo-frame{position:relative;overflow:hidden;aspect-ratio:3/2}
+.photo-frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.6s var(--ease)}
+.photo-frame.in img{transform:scale(1)}
+.photo-frame::after{content:"";position:absolute;inset:14px;border:1px solid rgba(255,255,255,.14);pointer-events:none}
+.bio-photo figcaption{margin-top:14px;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
+
+/* ═════════════════════════════════════════════════════
+   TRAJETÓRIA (fatos da bio em destaque + line-ups)
+═════════════════════════════════════════════════════ */
+#trajetoria{background:var(--bg2)}
+.tr-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:center;margin-top:50px}
+.tr-rows{border-top:1px solid var(--bdr2)}
+.tr-row{display:grid;grid-template-columns:minmax(150px,.9fr) 1fr;gap:24px;align-items:center;padding:26px 0;border-bottom:1px solid var(--bdr2)}
+.tr-n{font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,5vw,76px);line-height:.9;color:var(--fg);transition:color .4s,transform .6s var(--ease)}
+.tr-t{font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);line-height:1.7}
+.tr-row:hover .tr-n{color:var(--red);transform:translateX(8px)}
+.polaroid{background:#ececef;padding:16px 16px 0;box-shadow:0 40px 80px rgba(0,0,0,.6);transform:rotate(2.2deg);transition:transform .8s var(--ease);max-width:520px;justify-self:center}
+.polaroid.rv{transform:translateY(36px) rotate(2.2deg)}
+.polaroid.rv.in{transform:rotate(2.2deg)}
+.polaroid.rv.in:hover{transform:rotate(0) scale(1.02)}
+.polaroid .pic{aspect-ratio:3/2;overflow:hidden}
+.polaroid .pic img{width:100%;height:100%;object-fit:cover}
+.polaroid .cap{display:grid;place-items:center;padding:20px 0 22px}
+.polaroid .cap img{width:58%;filter:invert(1) contrast(1.2)}
+
+/* line-ups: um nome por vez, letras entrando pela máscara (só transform/opacity) */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lineup{margin-top:120px;text-align:center}
+.lineup .lbl{justify-content:center;margin-bottom:40px}
+.lineup .lbl::after{content:"";width:34px;height:1px;background:var(--acc)}
+.ln-stage{border-block:1px solid var(--bdr);padding:clamp(34px,6vh,64px) 0 clamp(22px,4vh,40px)}
+.ln-name{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,13.5vw,168px);line-height:1;letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;padding:.06em 0 .02em;height:1.08em;box-sizing:content-box;
+}
+.ln-name .c{display:inline-block;transform:translateY(105%);opacity:0;
+  transition:transform .95s cubic-bezier(.19,1,.22,1),opacity .7s ease}
+.ln-name .c.sp{width:.26em}
+.ln-name.in .c{transform:none;opacity:1}
+.ln-name.out .c{transform:translateY(-105%);opacity:0;transition:transform .7s cubic-bezier(.55,0,.78,.2),opacity .5s ease}
+html:not(.js) .ln-name .c{transform:none;opacity:1}
+.ln-meta{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px;font-size:10px;font-weight:500;letter-spacing:.32em;color:var(--dim);font-variant-numeric:tabular-nums}
+.ln-meta i{width:40px;height:1px;background:var(--bdr2);position:relative;overflow:hidden}
+.ln-meta i::after{content:"";position:absolute;inset:0;background:var(--red);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .6s var(--ease)}
+.ln-venues{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 22px;margin-top:48px;
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3.4vw,48px);line-height:1.1;letter-spacing:.04em;color:var(--mut)}
+.ln-venues i{width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
+.ln-venues span{white-space:nowrap;transition:color .3s}
+.ln-venues span:hover{color:var(--fg)}
+
+/* ═════════════════════════════════════════════════════
+   GALERIA — grid editorial só com fotos horizontais
+═════════════════════════════════════════════════════ */
+.ag{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:50px}
+.gi{position:relative;overflow:hidden;background:var(--bg3);cursor:pointer}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),opacity .6s}
+.gi:hover img{transform:scale(1.06)}
+.ag:hover .gi:not(:hover) img{opacity:.45}
+.gi::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,0);transition:border-color .5s,inset .5s var(--ease);pointer-events:none}
+.gi:hover::after{inset:12px;border-color:rgba(255,255,255,.3)}
+/* seta discreta: indica que a foto abre */
+.gi::before{
+  content:"";position:absolute;right:22px;bottom:22px;z-index:2;width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.4);background:rgba(6,6,8,.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f4f4f8' stroke-width='1.6'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") center/18px no-repeat;
+  opacity:0;transform:translate(6px,6px);transition:opacity .45s,transform .6s var(--ease),border-color .3s;pointer-events:none;
+}
+.gi:hover::before{opacity:1;transform:none;border-color:rgba(255,255,255,.75)}
+@media (hover:none){.gi::before{opacity:.9;transform:none;width:38px;height:38px;right:14px;bottom:14px}}
+.a1{grid-column:span 7;aspect-ratio:3/2}
+.a2{grid-column:span 5}
+.a3{grid-column:span 5;aspect-ratio:3/2}
+.a4{grid-column:span 7}
+.a5{grid-column:span 12;aspect-ratio:21/9}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:800;background:rgba(6,6,8,.96);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
+.lb.open{opacity:1;visibility:visible;transition:opacity .4s}
+.lb img{max-width:92vw;max-height:86vh;object-fit:contain;transform:scale(.96);transition:transform .6s var(--ease)}
+.lb.open img{transform:none}
+.lb-x,.lb-p,.lb-n{position:absolute;min-width:48px;min-height:48px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut)}
+.lb-x{top:18px;right:var(--pad)}
+.lb-p{left:var(--pad);top:50%;transform:translateY(-50%);font-size:24px}
+.lb-n{right:var(--pad);top:50%;transform:translateY(-50%);font-size:24px}
+.lb-x:hover,.lb-p:hover,.lb-n:hover{color:var(--fg)}
+
+/* ═════════════════════════════════════════════════════
+   BOOKING — contato direto
+═════════════════════════════════════════════════════ */
+#booking{position:relative;overflow:hidden;isolation:isolate}
+.bk-bg{position:absolute;inset:0;z-index:-1}
+.bk-bg img{width:100%;height:100%;object-fit:cover;opacity:.16}
+.bk-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--bg),rgba(6,6,8,.6) 40%,var(--bg))}
+#booking .lbl{justify-content:center}
+#booking .lbl::after{content:"";width:34px;height:1px;background:var(--acc)}
+/* título: duas linhas no mesmo corpo e no mesmo eixo */
+.bk-h{display:flex;flex-direction:column;align-items:center;font-family:'Bebas Neue',sans-serif;font-weight:400;
+  font-size:clamp(58px,10vw,150px);line-height:.86;letter-spacing:.015em;text-align:center;text-transform:uppercase}
+.bk-l1,.bk-l2{display:block;white-space:nowrap}
+.bk-l2{color:transparent;-webkit-text-stroke:1px var(--acc)}
+/* ícones de contato */
+.bk-icons{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(12px,2vw,22px);margin-top:clamp(44px,7vh,72px)}
+.bk-icons a{width:64px;height:64px;border-radius:50%;border:1px solid var(--bdr2);display:grid;place-items:center;color:var(--acc);background:rgba(14,14,17,.6);
+  transition:transform .5s var(--ease),border-color .35s,color .35s,background .35s}
+.bk-icons svg{width:22px;height:22px}
+.bk-icons a:hover{transform:translateY(-4px);border-color:var(--red);color:var(--fg);background:rgba(248,0,0,.08)}
+
+/* ═════════════════════════════════════════════════════
+   FOOTER
+═════════════════════════════════════════════════════ */
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:70px var(--pad) 34px;display:flex;flex-direction:column;align-items:center;gap:30px}
+footer > img{width:min(300px,64vw)}
+.ft-copy{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);text-align:center}
+
+/* ═════════════════════════════════════════════════════
+   RESPONSIVO
+═════════════════════════════════════════════════════ */
+@media (max-width:1000px){
+  .nav-links{display:none}
+  .burger{display:flex;justify-self:end}
+  .bio-sw,.tr-grid{grid-template-columns:1fr}
+  .bio-photo{order:-1}
+}
+@media (max-width:900px), (max-aspect-ratio:1/1){
+  /* no retrato o vídeo é cortado nas laterais: o logo PNG assume o título */
+  .hero-body{justify-content:center;gap:28px}
+  .hero-logo-m{display:block;width:88vw;max-width:520px;opacity:0;animation:up 1.4s var(--ease) .9s forwards}
+  .hero-veil{background:linear-gradient(180deg,rgba(6,6,8,.8),rgba(6,6,8,.68) 38%,rgba(6,6,8,.68) 62%,rgba(6,6,8,.94))}
+}
+@media (max-width:700px){
+  .sw{padding:88px var(--pad)}
+  #nav{padding:18px var(--pad)}
+  .nav-logo img{height:26px}
+  .hero-scroll{display:none}
+    .btn-line{padding:0 22px;letter-spacing:.24em}
+  .tr-row{grid-template-columns:1fr;gap:8px;padding:22px 0}
+  .ag{grid-template-columns:1fr;gap:10px}
+  .a1,.a2,.a3,.a4,.a5{grid-column:auto;aspect-ratio:3/2}
+    .lineup{margin-top:80px}
+  .ln-venues{flex-direction:column;gap:4px}
+  .ln-venues i{display:none}
+  .bk-icons{gap:10px}
+  .bk-icons a{width:54px;height:54px}
+  .bk-icons svg{width:20px;height:20px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav" aria-label="Principal">
+  <a href="#hero" class="nav-logo" aria-label="ANTI HERO — início"><img src="assets/img/antihero-logo.png" alt="ANTI HERO" width="1666" height="477"></a>
+  <div class="nav-links">
+    <a href="#bio">Bio</a>
+    <a href="#trajetoria">Trajetória</a>
+    <a href="#galeria">Galeria</a>
+    <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener">SoundCloud</a>
+    <a href="#booking" class="nav-cta">Booking</a>
+  </div>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+</nav>
+
+<div id="drawer" aria-hidden="true">
+  <a href="#bio">Bio</a>
+  <a href="#trajetoria">Trajetória</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#booking">Booking</a>
+  <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener">SoundCloud</a>
+</div>
+
+<!-- ═══ HERO ═══
+     VÍDEO: substitua os arquivos em assets/video/ mantendo os nomes.
+       · antihero-intro-720.mp4  → celulares/tablets (até 900px)
+       · antihero-intro-1080.mp4 → telas maiores
+       · poster.jpg              → imagem mostrada enquanto o vídeo carrega (use um quadro COM imagem, nunca preto)
+     autoplay + muted + playsinline são obrigatórios para o vídeo tocar sozinho em qualquer navegador. -->
+<section id="hero">
+  <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/video/poster.jpg" disablepictureinpicture>
+    <source src="assets/video/antihero-intro-720.mp4" media="(max-width: 900px)" type="video/mp4">
+    <source src="assets/video/antihero-intro-1080.mp4" type="video/mp4">
+  </video>
+  <div class="hero-veil"></div>
+
+  <div class="hero-body">
+    <h1 id="heroName">ANTI HERO</h1>
+    <img class="hero-logo-m" src="assets/img/antihero-logo.png" alt="" aria-hidden="true" width="1666" height="477">
+    <div class="hero-cta">
+      <a href="#booking" class="btn-line red">Booking</a>
+      <a href="https://open.spotify.com/intl-pt/artist/2D0GU3K1ddYMpi1goUYsQu" target="_blank" rel="noopener" class="btn-line">Ouvir no Spotify</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true"><span>Scroll</span><div class="scroll-rod"></div></div>
+
+  <!-- MÚSICA: assets/audio/antihero-sauce.m4a (ANTIHERO - SAUCE - 2026). Só baixa quando o usuário liga o som. -->
+  <audio id="heroAudio" src="assets/audio/antihero-sauce.m4a" preload="none" loop></audio>
+  <button class="mute-toggle" id="muteToggle" type="button" aria-label="Ligar música" aria-pressed="false">
+    <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+    <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+  </button>
+</section>
+
+<!-- WhatsApp flutuante -->
+<a id="wa-float" href="https://wa.me/5522998382612?text=Ol%C3%A1%2C+gostaria+de+fazer+um+booking+do+ANTI+HERO" target="_blank" rel="noopener" aria-label="WhatsApp — Booking ANTI HERO">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+
+<hr class="hr">
+
+<!-- ═══ BIO ═══  (texto oficial do txt.txt, sem alterações) -->
+<section id="bio"><div class="sw bio-sw">
+  <div class="bio-left">
+    <div class="rv">
+      <div class="lbl">Biografia</div>
+      <h2 class="bio-h" id="bioH">
+        <span class="b-d"><span>Anti-Hero</span></span>
+      </h2>
+    </div>
+    <div class="rv d1">
+      <p class="bio-p"><strong>Anti Hero</strong> é o projeto de Tech House e suas vertentes do DJ e produtor <strong>Pedro Pinheiro</strong>.</p>
+      <p class="bio-p">Começou sua carreira em 2019 e logo já se destacou, se firmando no mercado local com a agenda preenchida, virando referência em música eletrônica na região onde mora, no Estado do Rio de Janeiro.</p>
+      <p class="bio-p">Como DJ, se apresentou em eventos com grandes nomes como Volkoder, Dilby, Bruno Be, Filipe Ret, Zuffo, Korvo, Marquinhus SP e com o lendário residente da Privilege Sandro Valente.</p>
+      <p class="bio-p">Comandou a cabine de lugares tradicionais assim como da Privilege e Fishbone. Se apresentou em eventos de grande porte como a festa oficial da Corona.</p>
+      <p class="bio-p">Como produtor lançou música por gravadora da Califórnia, Brainjack. E lançou música com outros artistas renomados como Chemical Disco.</p>
+    </div>
+  </div>
+  <figure class="bio-photo rv d2">
+    <div class="photo-frame" id="bioPhoto"><img src="assets/img/antihero-02.jpg" alt="Anti Hero de braços abertos atrás dos CDJs, sob luz vermelha" width="1280" height="853" loading="lazy" decoding="async"></div>
+    <figcaption>Ao vivo</figcaption>
+  </figure>
+</div></section>
+
+<!-- ═══ TRAJETÓRIA ═══  (somente fatos da bio) -->
+<section id="trajetoria"><div class="sw">
+  <div class="rv">
+    <div class="lbl">Trajetória</div>
+    <h2 class="sec-h">Da pista <em>ao</em> estúdio</h2>
+  </div>
+  <div class="tr-grid">
+    <div class="tr-rows">
+      <div class="tr-row rv"><span class="tr-n">2019</span><span class="tr-t">Início da carreira</span></div>
+      <div class="tr-row rv d1"><span class="tr-n">RJ</span><span class="tr-t">Referência em música eletrônica no Estado do Rio de Janeiro</span></div>
+      <div class="tr-row rv d2"><span class="tr-n">Brainjack</span><span class="tr-t">Lançamento por gravadora da Califórnia</span></div>
+      <div class="tr-row rv d3"><span class="tr-n">Chemical Disco</span><span class="tr-t">Lançamento em parceria</span></div>
+    </div>
+    <figure class="polaroid rv d1">
+      <div class="pic"><img src="assets/img/antihero-04.jpg" alt="Anti Hero mixando, em preto e branco" width="1280" height="853" loading="lazy" decoding="async"></div>
+      <figcaption class="cap"><img src="assets/img/antihero-logo.png" alt="ANTI HERO" width="1666" height="477" loading="lazy"></figcaption>
+    </figure>
+  </div>
+
+  <div class="lineup">
+    <div class="lbl rv">Line-ups &amp; cabines</div>
+    <p class="sr-only">Dividiu eventos com Volkoder, Dilby, Bruno Be, Filipe Ret, Zuffo, Korvo, Marquinhus SP e Sandro Valente.</p>
+    <!-- nomes: um de cada vez, as letras sobem da linha e saem por cima. Edite a lista em data-names. -->
+    <div class="ln-stage" id="lnStage" aria-hidden="true"
+         data-names="Volkoder|Dilby|Bruno Be|Filipe Ret|Zuffo|Korvo|Marquinhus SP|Sandro Valente">
+      <div class="ln-name" id="lnName">Volkoder</div>
+      <div class="ln-meta"><span id="lnIdx">01</span><i></i><span id="lnTot">08</span></div>
+    </div>
+    <p class="ln-venues rv"><span>Privilege</span><i></i><span>Fishbone</span><i></i><span>Festa oficial da Corona</span></p>
+  </div>
+</div></section>
+
+<!-- ═══ GALERIA ═══
+     FOTOS: substitua em assets/img/ mantendo os nomes. Use fotos HORIZONTAIS (3:2), ~1600px, JPG ~80%. -->
+<section id="galeria"><div class="sw">
+  <div class="rv">
+    <div class="lbl">Galeria</div>
+    <h2 class="sec-h">Momentos</h2>
+  </div>
+  <div class="ag">
+    <figure class="gi a1 rv"><img src="assets/img/antihero-05.jpg" alt="Anti Hero no palco sob o letreiro ANTI HERO, com flores e um Fusca à frente" width="1280" height="853" loading="lazy" decoding="async"></figure>
+    <figure class="gi a2 rv d1"><img src="assets/img/antihero-03.jpg" alt="Palco com o logo ANTI HERO iluminado e o público de celulares erguidos" width="1280" height="853" loading="lazy" decoding="async"></figure>
+    <figure class="gi a3 rv"><img src="assets/img/antihero-04.jpg" alt="Anti Hero mixando, em preto e branco" width="1280" height="853" loading="lazy" decoding="async"></figure>
+    <figure class="gi a4 rv d1"><img src="assets/img/antihero-06.jpg" alt="Casa lotada vista do fundo da pista, em luz vermelha" width="1280" height="853" loading="lazy" decoding="async"></figure>
+    <figure class="gi a5 rv"><img src="assets/img/antihero-09.jpg" alt="Pista lotada com feixes de luz azul e o logo ANTI HERO no palco" width="1280" height="853" loading="lazy" decoding="async" style="object-position:center 55%"></figure>
+  </div>
+</div></section>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="">
+  <button class="lb-x" type="button" id="lbX">Fechar ✕</button>
+  <button class="lb-p" type="button" id="lbP" aria-label="Anterior">←</button>
+  <button class="lb-n" type="button" id="lbN" aria-label="Próxima">→</button>
+</div>
+
+<hr class="hr">
+
+<!-- ═══ BOOKING ═══ -->
+<section id="booking">
+  <div class="bk-bg" aria-hidden="true"><img src="assets/img/antihero-09.jpg" alt="" width="1280" height="853" loading="lazy" decoding="async"></div>
+  <div class="sw">
+    <div class="rv">
+      <div class="lbl">Booking</div>
+      <h2 class="bk-h"><span class="bk-l1">Contrate</span><span class="bk-l2">Anti-Hero</span></h2>
+    </div>
+    <!-- contato final: só ícones (assinatura). Os links estão no href de cada um. -->
+    <nav class="bk-icons rv d1" aria-label="Contato">
+      <a href="https://wa.me/5522998382612?text=Ol%C3%A1%2C+gostaria+de+fazer+um+booking+do+ANTI+HERO" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
+      <a href="mailto:antiheromusic01@gmail.com" aria-label="E-mail" title="E-mail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5"/><path d="m3 6.5 9 6.5 9-6.5"/></svg></a>
+      <a href="https://www.instagram.com/antiheromusic" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r=".9" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://open.spotify.com/intl-pt/artist/2D0GU3K1ddYMpi1goUYsQu" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
+      <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.56 8.87V17h8.76c1.5-.09 2.68-1.35 2.68-2.87 0-1.58-1.27-2.87-2.84-2.87-.3 0-.6.05-.87.14C18.97 9.48 17.27 8 15.2 8c-1.35 0-2.6.32-3.64.87zM10.4 9.6V17h.6V9.24c-.2.11-.4.23-.6.36zM9.2 10.5V17h.6v-7c-.21.16-.41.33-.6.5zM8 11.3V17h.6v-6.2c-.2.16-.4.33-.6.5zM6.8 12V17h.6v-5.4c-.21.13-.41.26-.6.4zM5.6 12.4V17h.6v-4.9c-.2.1-.4.2-.6.3zM4.4 12.9V17h.6v-4.3c-.2.07-.4.14-.6.2zM3.2 13.3V17h.6v-3.8c-.2.03-.4.07-.6.1zM2 14.1V17h.6v-3.1c-.2.05-.4.12-.6.2z"/></svg></a>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <img src="assets/img/antihero-logo.png" alt="ANTI HERO" width="1666" height="477" loading="lazy">
+  <p class="ft-copy">© 2026 Anti Hero · Rio de Janeiro — BR</p>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  window.scrollTo(0, 0);
+
+  /* ── VÍDEO DO HERO ─────────────────────────────────────
+     Toca sozinho pelos atributos do HTML. Se o navegador segurar
+     o autoplay (economia de bateria etc.), tentamos de novo e,
+     em último caso, no primeiro toque/rolagem/tecla. */
+  const v = $('#heroVideo');
+  v.muted = true;                          // garante mudo (condição do autoplay)
+  const tryPlay = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+  tryPlay();
+  v.addEventListener('loadeddata', tryPlay, { once: true });
+  setTimeout(() => { if (v.paused) tryPlay(); }, 1200);
+  const kick = () => { if (v.paused) tryPlay(); };
+  ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(ev => addEventListener(ev, kick, { once: true, passive: true }));
+  // pausa quando o hero sai da tela (economiza CPU/bateria) e volta ao reaparecer
+  new IntersectionObserver(([e]) => { e.isIntersecting ? tryPlay() : v.pause(); }).observe($('#hero'));
+
+  /* ── MÚSICA ──────────────────────────────────────────
+     O site abre em silêncio (política dos navegadores). O botão de som
+     liga/desliga a faixa ANTIHERO - SAUCE; o vídeo continua sempre mudo.
+     Tocando e fora do hero, o mesmo botão encosta no canto inferior esquerdo. */
+  const au = $('#heroAudio'), mt = $('#muteToggle');
+  const syncBtn = () => {
+    const on = !au.paused;
+    mt.setAttribute('aria-pressed', String(on));
+    mt.setAttribute('aria-label', on ? 'Desligar música' : 'Ligar música');
+    onScroll();
+  };
+  mt.addEventListener('click', () => {
+    if (au.paused) {
+      au.volume = 0;
+      const p = au.play();
+      if (p && p.then) p.then(() => fade(1)).catch(() => {});
+    } else fade(0, () => au.pause());
+  });
+  let fadeRaf;
+  const fade = (to, done) => {                      // entra/sai em ~0,6 s, sem estalo
+    cancelAnimationFrame(fadeRaf);
+    const from = au.volume, t0 = performance.now();
+    const step = t => {
+      const k = Math.max(0, Math.min((t - t0) / 600, 1));
+      au.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      if (k < 1) fadeRaf = requestAnimationFrame(step); else if (done) done();
+    };
+    fadeRaf = requestAnimationFrame(step);
+  };
+  au.addEventListener('play', syncBtn);
+  au.addEventListener('pause', syncBtn);
+
+  /* nav sólida, WhatsApp flutuante e parallax leve do vídeo (só transform) */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nav = $('#nav'), wa = $('#wa-float');
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const y = scrollY, h = innerHeight;
+      nav.classList.toggle('solid', y > 40);
+      wa.classList.toggle('show', y > h * .8);
+      mt.classList.toggle('dock', y > h * .8 && !au.paused);
+      if (!reduce && y < h) v.style.transform = `translate3d(0,${y * .25}px,0) scale(${1 + y / h * .06})`;
+      ticking = false;
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── MENU MOBILE ── */
+  const burger = $('#burger'), drawer = $('#drawer');
+  const setMenu = open => {
+    document.documentElement.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    drawer.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', () => setMenu(!document.documentElement.classList.contains('menu-open')));
+  $$('#drawer a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+  /* ── REVEAL AO ROLAR (IntersectionObserver; só opacity/transform) ── */
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .14, rootMargin: '0px 0px -6% 0px' });
+  $$('.rv, #bioH, #bioPhoto').forEach(el => io.observe(el));
+
+  /* ── LINE-UPS: um nome por vez ─────────────────────────
+     Letras sobem da linha (entrada lenta, sem tranco), o nome fica
+     parado para leitura e sai por cima antes do próximo. Só roda
+     com a seção na tela. */
+  const stage = $('#lnStage'), nameEl = $('#lnName'), idxEl = $('#lnIdx'), bar = $('.ln-meta i');
+  const names = stage.dataset.names.split('|');
+  $('#lnTot').textContent = String(names.length).padStart(2, '0');
+  let ni = 0, timer = null, running = false;
+  const build = name => {
+    nameEl.classList.remove('in', 'out');
+    nameEl.innerHTML = '';
+    [...name].forEach((ch, i) => {
+      const c = document.createElement('span');
+      c.className = ch === ' ' ? 'c sp' : 'c';
+      c.textContent = ch === ' ' ? '\u00a0' : ch;
+      c.style.transitionDelay = (i * 45) + 'ms';
+      nameEl.appendChild(c);
+    });
+  };
+  const showName = () => {
+    build(names[ni]);
+    idxEl.textContent = String(ni + 1).padStart(2, '0');
+    bar.style.setProperty('--p', (ni + 1) / names.length);
+    void nameEl.offsetWidth;                           // aplica o estado inicial antes de animar
+    nameEl.classList.add('in');
+    const len = names[ni].length;
+    timer = setTimeout(() => {                         // tempo de leitura
+      [...nameEl.children].forEach((c, i) => { c.style.transitionDelay = (i * 25) + 'ms'; });
+      nameEl.classList.add('out');
+      timer = setTimeout(() => { ni = (ni + 1) % names.length; if (running) showName(); }, 700 + len * 25);
+    }, 2300 + len * 45);
+  };
+  if (reduce) {                                       // sem animação: lista completa, nenhum nome partido
+    nameEl.innerHTML = names.map(n => '<span style="white-space:nowrap">' + n + '</span>').join(' · ');
+    Object.assign(nameEl.style, { whiteSpace: 'normal', height: 'auto', fontSize: 'clamp(28px,4vw,56px)', lineHeight: '1.25' });
+    $('.ln-meta').style.display = 'none';
+  }
+  else {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !running) { running = true; showName(); }
+      else if (!e.isIntersecting && running) { running = false; clearTimeout(timer); }
+    }, { threshold: .3 }).observe(stage);
+  }
+
+  /* ── LIGHTBOX DA GALERIA ── */
+  const imgs = $$('.gi img'), lb = $('#lb'), lbImg = $('#lbImg');
+  let idx = 0;
+  const show = i => { idx = (i + imgs.length) % imgs.length; lbImg.src = imgs[idx].src; lbImg.alt = imgs[idx].alt; };
+  const openLb = i => { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; $('#lbX').focus(); };
+  const closeLb = () => { if (!lb.classList.contains('open')) return; lb.classList.remove('open'); document.body.style.overflow = ''; };
+  imgs.forEach((im, i) => im.parentElement.addEventListener('click', () => openLb(i)));
+  $('#lbX').addEventListener('click', closeLb);
+  $('#lbP').addEventListener('click', () => show(idx - 1));
+  $('#lbN').addEventListener('click', () => show(idx + 1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape') { setMenu(false); closeLb(); }
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') show(idx + 1);
+    if (e.key === 'ArrowLeft') show(idx - 1);
+  });
+})();
+</script>
+</body>
+</html>
