@@ -110,6 +110,7 @@ html:not(.js) .rv{opacity:1;transform:none}
 .menu-open #drawer a{transform:none;opacity:1}
 .menu-open #drawer a:nth-child(2){transition-delay:.05s}.menu-open #drawer a:nth-child(3){transition-delay:.1s}
 .menu-open #drawer a:nth-child(4){transition-delay:.15s}.menu-open #drawer a:nth-child(5){transition-delay:.2s}
+.menu-open #drawer a:nth-child(6){transition-delay:.25s}
 #drawer a:hover{color:var(--fg)}
 
 /* ═════════════════════════════════════════════════════
@@ -117,6 +118,7 @@ html:not(.js) .rv{opacity:1;transform:none}
 ═════════════════════════════════════════════════════ */
 #hero{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;background:#000 url("assets/video/poster.jpg") center/cover no-repeat}
 #hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.hero-fill{display:none}
 /* véu: escurece topo e base para leitura, sem apagar o vídeo */
 .hero-veil{position:absolute;inset:0;pointer-events:none;
   background:
@@ -259,6 +261,78 @@ html:not(.js) .ln-name .c{transform:none;opacity:1}
 .lb-x:hover,.lb-p:hover,.lb-n:hover{color:var(--fg)}
 
 /* ═════════════════════════════════════════════════════
+   SETS — título central + linha vermelha + duas capas horizontais
+   A capa é uma composição própria (não é thumbnail do YouTube).
+   Tudo dentro dela escala junto com a largura (unidades cqw),
+   então no celular ela só diminui — nunca corta nem deforma.
+═════════════════════════════════════════════════════ */
+#sets{background:var(--bg2)}
+.sets-head{text-align:center}
+.sets-head .lbl{justify-content:center}
+.sets-head .lbl::after{content:"";width:34px;height:1px;background:var(--acc)}
+.sets-rule{width:clamp(120px,26vw,370px);height:1px;border:0;background:var(--red);margin:clamp(34px,5vw,56px) auto 0}
+.sets-list{max-width:1180px;margin:clamp(56px,8vw,96px) auto 0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2vw,28px)}
+
+.set-cover{position:relative;display:block;aspect-ratio:16/9;background:var(--bg);overflow:hidden;isolation:isolate;container-type:inline-size;cursor:pointer}
+/* imagem do set: lado direito, P&B, some no preto à esquerda */
+.sc-img{position:absolute;top:0;right:0;bottom:0;width:60%;z-index:-2}
+.sc-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) contrast(1.05);transform:scale(1.02);transition:transform 1.6s var(--ease),filter .8s}
+.set-cover::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(90deg,var(--bg) 40%,rgba(6,6,8,.72) 55%,rgba(6,6,8,.18) 78%,rgba(6,6,8,.3) 100%),
+    linear-gradient(0deg,rgba(6,6,8,.75),transparent 38%,transparent 75%,rgba(6,6,8,.45));
+}
+/* moldura fina (mesma linguagem das fotos do site) + grão de filme */
+.set-cover::after{content:"";position:absolute;inset:2.2cqw;border:1px solid rgba(255,255,255,.13);pointer-events:none;transition:border-color .6s;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.sc-txt{position:absolute;left:7.5cqw;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start}
+.sc-t1{font-family:'Bebas Neue',sans-serif;font-size:12.5cqw;line-height:.84;letter-spacing:.012em;color:var(--fg);white-space:nowrap}
+.sc-rule{display:block;width:7cqw;height:1px;background:var(--red);margin:2.6cqw 0 2.3cqw;transition:width .8s var(--ease)}
+.sc-t2{font-family:'Bebas Neue',sans-serif;font-size:3.9cqw;line-height:1;letter-spacing:.34em;color:var(--acc);white-space:nowrap}
+/* play discreto no canto */
+.sc-play{position:absolute;right:6cqw;bottom:6cqw;width:max(38px,7.2cqw);height:max(38px,7.2cqw);border-radius:50%;border:1px solid rgba(255,255,255,.42);
+  display:grid;place-items:center;color:var(--fg);background:rgba(6,6,8,.3);transition:background .45s,border-color .45s,transform .6s var(--ease)}
+.sc-play svg{width:32%;height:32%;margin-left:8%}
+.set-cover:hover .sc-img img{transform:scale(1.07);filter:brightness(.78) contrast(1.05)}
+.set-cover:hover::after{border-color:rgba(255,255,255,.28)}
+.set-cover:hover .sc-rule{width:12cqw}
+.set-cover:hover .sc-play,.set-cover:focus-visible .sc-play{background:var(--red);border-color:var(--red);transform:scale(1.08)}
+
+/* player em tela sobreposta: o vídeo abre na proporção original */
+.sm{position:fixed;inset:0;z-index:820;background:rgba(6,6,8,.96);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s}
+.sm.open{opacity:1;visibility:visible;transition:opacity .45s}
+.sm-x{position:absolute;top:18px;right:var(--pad);min-width:48px;min-height:48px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);z-index:2}
+.sm-x:hover{color:var(--fg)}
+.sm-stage{display:flex;flex-direction:column;align-items:center;gap:14px;transform:translateY(14px) scale(.985);transition:transform .7s var(--ease)}
+.sm.open .sm-stage{transform:none}
+.sm-box{position:relative;background:#000;overflow:hidden}
+.sm-box iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.sm[data-fmt="h"] .sm-box{width:min(92vw,calc((100vh - 170px) * 16 / 9));aspect-ratio:16/9}
+/* vertical: janela 9:16. O arquivo no YouTube é 16:9 com barras pretas nas laterais,
+   então o player fica 3,16× mais largo e centrado — só as barras ficam de fora */
+.sm[data-fmt="v"] .sm-box{height:min(calc(100vh - 190px),calc(92vw * 16 / 9));aspect-ratio:9/16}
+.sm[data-fmt="v"] .sm-box iframe{width:317%;left:50%;transform:translateX(-50%)}
+.sm-cap{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;font-size:10px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.sm-cap a{color:var(--mut);transition:color .3s;white-space:nowrap}
+.sm-cap a:hover{color:var(--fg)}
+/* controles próprios (só no vertical, onde os do YouTube ficariam fora da janela) */
+.sm-ctl{display:none;align-items:center;gap:12px;width:100%;font-size:10px;letter-spacing:.14em;color:var(--mut);font-variant-numeric:tabular-nums}
+.sm[data-fmt="v"] .sm-ctl{display:flex}
+.sm-ctl button{width:34px;height:34px;flex:none;display:grid;place-items:center;border:1px solid var(--bdr2);border-radius:50%;transition:border-color .3s}
+.sm-ctl button:hover{border-color:var(--acc)}
+.sm-ctl button[hidden]{display:none}
+.sm-ctl svg{width:14px;height:14px}
+.sm-ctl .i-b{display:none}
+.sm-ctl [aria-pressed="true"] .i-a{display:none}
+.sm-ctl [aria-pressed="true"] .i-b{display:block}
+.sm-seek{flex:1;min-width:40px;-webkit-appearance:none;appearance:none;height:18px;background:transparent;cursor:pointer}
+.sm-seek::-webkit-slider-runnable-track{height:1px;background:linear-gradient(90deg,var(--red) var(--p,0%),var(--bdr2) var(--p,0%))}
+.sm-seek::-moz-range-track{height:1px;background:linear-gradient(90deg,var(--red) var(--p,0%),var(--bdr2) var(--p,0%))}
+.sm-seek::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;margin-top:-5px;border-radius:50%;background:var(--fg);border:0}
+.sm-seek::-moz-range-thumb{width:11px;height:11px;border-radius:50%;background:var(--fg);border:0}
+.sm-time{white-space:nowrap}
+
+/* ═════════════════════════════════════════════════════
    BOOKING — contato direto
 ═════════════════════════════════════════════════════ */
 #booking{position:relative;overflow:hidden;isolation:isolate}
@@ -279,6 +353,56 @@ html:not(.js) .ln-name .c{transform:none;opacity:1}
 .bk-icons svg{width:22px;height:22px}
 .bk-icons a:hover{transform:translateY(-4px);border-color:var(--red);color:var(--fg);background:rgba(248,0,0,.08)}
 
+/* formulário de booking (estrutura inspirada no press kit LOWZZADA, na linguagem do ANTI HERO) */
+.bk-form{max-width:980px;margin:clamp(48px,7vh,72px) auto 0;padding:clamp(24px,4vw,52px);border:1px solid var(--bdr2);background:rgba(10,10,13,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);text-align:left}
+.bk-fs{border:0;min-width:0}
+.bk-fs + .bk-fs{margin-top:clamp(30px,4vw,44px)}
+.bk-fs legend{display:flex;align-items:center;gap:14px;width:100%;margin-bottom:20px;font-size:10px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--acc)}
+.bk-fs legend b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:20px;letter-spacing:.04em;color:var(--red)}
+.bk-fs legend::after{content:"";flex:1;height:1px;background:var(--bdr)}
+.bk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 16px}
+.bk-f{display:flex;flex-direction:column;gap:8px;min-width:0}
+.bk-grid.c2{grid-template-columns:1fr 1fr}
+.bk-f.full{grid-column:1 / -1}
+.bk-f label{font-size:10px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--mut)}
+.bk-f label i{font-style:normal;color:var(--red);margin-left:3px}
+.bk-f input,.bk-f select,.bk-f textarea{width:100%;min-height:50px;padding:13px 16px;border:1px solid var(--bdr2);border-radius:0;background:rgba(255,255,255,.025);
+  color:var(--fg);font:300 15px/1.4 'Jost',sans-serif;letter-spacing:.02em;outline:none;-webkit-appearance:none;appearance:none;color-scheme:dark;transition:border-color .3s,background .3s}
+.bk-f select{padding-right:40px;cursor:pointer;
+  background:rgba(255,255,255,.025) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c6c6d0' stroke-width='1.6'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 14px center/14px no-repeat}
+.bk-f select option{background:var(--bg3);color:var(--fg)}
+.bk-f select:has(option[value=""]:checked){color:rgba(244,244,248,.4)}
+.bk-f textarea{min-height:120px;resize:vertical}
+.bk-f input::placeholder,.bk-f textarea::placeholder{color:rgba(244,244,248,.28)}
+.bk-f input:focus,.bk-f select:focus,.bk-f textarea:focus{border-color:var(--acc);background-color:rgba(198,198,208,.05)}
+.bk-f .bad{border-color:var(--red)}
+.bk-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.bk-send{width:100%;justify-content:center;margin-top:clamp(30px,4vw,40px);min-height:58px;border-color:var(--red);font-size:12px}
+.bk-send[disabled]{opacity:.6;pointer-events:none}
+.bk-note{margin-top:14px;font-size:11px;letter-spacing:.08em;line-height:1.7;color:var(--dim);text-align:center}
+.bk-status{margin-top:18px;padding:16px 18px;border:1px solid var(--bdr2);font-size:14px;line-height:1.6;color:var(--mut);text-align:center}
+.bk-status[hidden]{display:none}
+.bk-status.ok{border-color:rgba(255,255,255,.3);color:var(--fg)}
+.bk-status.err{border-color:var(--red)}
+.bk-status a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+.bk-sep{display:flex;align-items:center;gap:18px;max-width:980px;margin:clamp(48px,7vh,72px) auto 0;font-size:10px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
+.bk-sep::before,.bk-sep::after{content:"";flex:1;height:1px;background:var(--bdr2)}
+.bk-sep + .bk-icons{margin-top:28px}
+
+/* ═════════════════════════════════════════════════════
+   PRESS KIT — botão sólido entre duas linhas (referência LOWZZADA)
+═════════════════════════════════════════════════════ */
+#presskit{position:relative;margin-top:-64px;padding:0 var(--pad) clamp(64px,9vh,96px)}  /* sobe para perto dos contatos */
+.pk-in{max-width:1320px;margin:0 auto;border-top:1px solid var(--bdr);padding-top:clamp(34px,5vh,48px);display:flex;align-items:center;gap:clamp(20px,3vw,40px)}
+.pk-in::before,.pk-in::after{content:"";flex:1;height:1px;background:var(--bdr)}
+.pk-btn{position:relative;display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:0 clamp(20px,2.2vw,28px);background:var(--fg);color:var(--bg);
+  font-size:10px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;overflow:hidden;isolation:isolate;transition:color .45s}
+.pk-btn::before{content:"";position:absolute;inset:0;background:var(--red);transform:translateY(101%);transition:transform .55s var(--ease);z-index:-1}
+.pk-btn:hover{color:#fff}
+.pk-btn:hover::before{transform:none}
+.pk-btn svg{width:14px;height:14px;flex:none;transition:transform .45s var(--ease)}
+.pk-btn:hover svg{transform:translateY(2px)}
+
 /* ═════════════════════════════════════════════════════
    FOOTER
 ═════════════════════════════════════════════════════ */
@@ -294,17 +418,22 @@ footer > img{width:min(300px,64vw)}
   .burger{display:flex;justify-self:end}
   .bio-sw,.tr-grid{grid-template-columns:1fr}
   .bio-photo{order:-1}
+  .sets-list{grid-template-columns:1fr;max-width:760px}
+  .bk-grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:900px), (max-aspect-ratio:1/1){
   /* no retrato o vídeo é cortado nas laterais: o logo PNG assume o título */
   .hero-body{justify-content:center;gap:28px}
   .hero-logo-m{display:block;width:88vw;max-width:520px;opacity:0;animation:up 1.4s var(--ease) .9s forwards}
   .hero-veil{background:linear-gradient(180deg,rgba(6,6,8,.8),rgba(6,6,8,.68) 38%,rgba(6,6,8,.68) 62%,rgba(6,6,8,.94))}
-  /* menos zoom no retrato: faixa 4:5 centrada, bordas somem no preto */
+  /* menos zoom no retrato: o vídeo nítido fica numa faixa 1:1 (mostra mais da imagem)
+     e o próprio vídeo, desfocado, preenche a tela inteira por trás — sem barras pretas */
   #hero{background:#000}
-  #hero video{height:min(125vw,100%);margin:auto 0;
-    -webkit-mask-image:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);
-            mask-image:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent)}
+  .hero-fill{display:block;position:absolute;inset:0;overflow:hidden;background:#000 url("assets/video/poster.jpg") center/cover no-repeat}
+  .hero-fill canvas{display:block;width:100%;height:100%;transform:scale(1.2);filter:blur(16px) brightness(.62) saturate(1.1)}
+  #hero video{height:min(100vw,100%);margin:auto 0;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);
+            mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent)}
 }
 @media (max-width:700px){
   .sw{padding:88px var(--pad)}
@@ -318,6 +447,15 @@ footer > img{width:min(300px,64vw)}
     .lineup{margin-top:80px}
   .ln-venues{flex-direction:column;gap:4px}
   .ln-venues i{display:none}
+  /* sets: capas uma embaixo da outra (continuam horizontais) */
+  .sets-list{gap:14px}
+  .sm-x{top:8px}
+  /* booking: um campo por linha; 16px evita o zoom automático do iPhone */
+  .bk-grid,.bk-grid.c2{grid-template-columns:1fr;gap:16px}
+  .bk-f input,.bk-f select,.bk-f textarea{font-size:16px}
+  .bk-fs legend{letter-spacing:.28em}
+  #presskit{margin-top:-40px}
+  .pk-btn{padding:0 20px;letter-spacing:.26em}
   .bk-icons{gap:10px}
   .bk-icons a{width:54px;height:54px}
   .bk-icons svg{width:20px;height:20px}
@@ -338,7 +476,8 @@ footer > img{width:min(300px,64vw)}
     <a href="#bio">Bio</a>
     <a href="#trajetoria">Trajetória</a>
     <a href="#galeria">Galeria</a>
-    <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener">SoundCloud</a>
+    <a href="#sets">Sets</a>
+    <a href="https://open.spotify.com/intl-pt/artist/2D0GU3K1ddYMpi1goUYsQu" target="_blank" rel="noopener">Spotify</a>
     <a href="#booking" class="nav-cta">Booking</a>
   </div>
   <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
@@ -348,8 +487,9 @@ footer > img{width:min(300px,64vw)}
   <a href="#bio">Bio</a>
   <a href="#trajetoria">Trajetória</a>
   <a href="#galeria">Galeria</a>
+  <a href="#sets">Sets</a>
   <a href="#booking">Booking</a>
-  <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener">SoundCloud</a>
+  <a href="https://open.spotify.com/intl-pt/artist/2D0GU3K1ddYMpi1goUYsQu" target="_blank" rel="noopener">Spotify</a>
 </div>
 
 <!-- ═══ HERO ═══
@@ -359,6 +499,8 @@ footer > img{width:min(300px,64vw)}
        · poster.jpg              → imagem mostrada enquanto o vídeo carrega (use um quadro COM imagem, nunca preto)
      autoplay + muted + playsinline são obrigatórios para o vídeo tocar sozinho em qualquer navegador. -->
 <section id="hero">
+  <!-- celular: fundo desfocado desenhado a partir do próprio vídeo (canvas minúsculo, sem segundo download) -->
+  <div class="hero-fill" aria-hidden="true"><canvas width="36" height="64"></canvas></div>
   <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/video/poster.jpg" disablepictureinpicture>
     <source src="assets/video/antihero-intro-720.mp4" media="(max-width: 900px)" type="video/mp4">
     <source src="assets/video/antihero-intro-1080.mp4" type="video/mp4">
@@ -435,14 +577,14 @@ footer > img{width:min(300px,64vw)}
 
   <div class="lineup">
     <div class="lbl rv">Line-ups &amp; cabines</div>
-    <p class="sr-only">Dividiu eventos com Volkoder, Dilby, Bruno Be, Filipe Ret, Zuffo, Korvo, Marquinhus SP e Sandro Valente.</p>
+    <p class="sr-only">Dividiu eventos com Volkoder, Dilby, Bruno Be, Filipe Ret, Zuffo, Korvo, Marquinhus SP, Sandro Valente, Dobê e Lowderz.</p>
     <!-- nomes: um de cada vez, as letras sobem da linha e saem por cima. Edite a lista em data-names. -->
     <div class="ln-stage" id="lnStage" aria-hidden="true"
-         data-names="Volkoder|Dilby|Bruno Be|Filipe Ret|Zuffo|Korvo|Marquinhus SP|Sandro Valente">
+         data-names="Volkoder|Dilby|Bruno Be|Filipe Ret|Zuffo|Korvo|Marquinhus SP|Sandro Valente|Dobê|Lowderz">
       <div class="ln-name" id="lnName">Volkoder</div>
-      <div class="ln-meta"><span id="lnIdx">01</span><i></i><span id="lnTot">08</span></div>
+      <div class="ln-meta"><span id="lnIdx">01</span><i></i><span id="lnTot">10</span></div>
     </div>
-    <p class="ln-venues rv"><span>Privilege</span><i></i><span>Fishbone</span><i></i><span>Festa oficial da Corona</span></p>
+    <p class="ln-venues rv"><span>Privìlege</span><i></i><span>Fishbone</span><i></i><span>Festa oficial da Corona</span></p>
   </div>
 </div></section>
 
@@ -469,6 +611,56 @@ footer > img{width:min(300px,64vw)}
   <button class="lb-n" type="button" id="lbN" aria-label="Próxima">→</button>
 </div>
 
+<!-- ═══ SETS ═══
+     Cada set é uma CAPA horizontal (assets/img/set-*.jpg + texto por cima). O player só abre no clique,
+     numa tela sobreposta, na proporção original do vídeo: data-fmt="h" (horizontal) ou "v" (vertical).
+     Para trocar um set: mude data-yt (ID do vídeo), data-start (segundo inicial), o href, a imagem e o texto. -->
+<section id="sets"><div class="sw">
+  <div class="sets-head rv">
+    <div class="lbl">Ao vivo</div>
+    <h2 class="sec-h">Sets</h2>
+    <hr class="sets-rule">
+  </div>
+  <div class="sets-list">
+    <a class="set-cover rv" href="https://www.youtube.com/watch?v=F9f8j8RQWLY&amp;t=139s" target="_blank" rel="noopener"
+       data-yt="F9f8j8RQWLY" data-start="139" data-fmt="h" data-title="ANTI HERO — CARNAVAL 2024" aria-label="Assistir ANTI HERO — Carnaval 2024">
+      <span class="sc-img"><img src="assets/img/set-carnaval-2024.jpg" alt="" width="1120" height="483" loading="lazy" decoding="async" style="object-position:64% 50%"></span>
+      <span class="sc-txt"><span class="sc-t1">ANTI HERO</span><span class="sc-rule"></span><span class="sc-t2">CARNAVAL 2024</span></span>
+      <span class="sc-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5v17l14-8.5z"/></svg></span>
+    </a>
+    <a class="set-cover rv d1" href="https://www.youtube.com/watch?v=W4aPe104nnc&amp;t=499s" target="_blank" rel="noopener"
+       data-yt="W4aPe104nnc" data-start="499" data-fmt="v" data-title="ANTI HERO — PRIVÌLEGE" aria-label="Assistir ANTI HERO — Privìlege">
+      <span class="sc-img"><img src="assets/img/set-privilege.jpg" alt="" width="560" height="997" loading="lazy" decoding="async" style="object-position:50% 92%"></span>
+      <span class="sc-txt"><span class="sc-t1">ANTI HERO</span><span class="sc-rule"></span><span class="sc-t2">PRIVÌLEGE</span></span>
+      <span class="sc-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5v17l14-8.5z"/></svg></span>
+    </a>
+  </div>
+</div></section>
+
+<!-- player dos sets (tela sobreposta) -->
+<div class="sm" id="sm" role="dialog" aria-modal="true" aria-label="Set em vídeo" data-fmt="h">
+  <button class="sm-x" type="button" id="smX">Fechar ✕</button>
+  <div class="sm-stage">
+    <div class="sm-box" id="smBox"></div>
+    <div class="sm-ctl">
+      <button type="button" id="smPlay" aria-label="Pausar" aria-pressed="false">
+        <svg class="i-a" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h3.5v16H7zM13.5 4H17v16h-3.5z"/></svg>
+        <svg class="i-b" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 3.5v17l13-8.5z"/></svg>
+      </button>
+      <input class="sm-seek" id="smSeek" type="range" min="0" max="1000" step="1" value="0" aria-label="Posição do set">
+      <span class="sm-time" id="smTime">0:00</span>
+      <button type="button" id="smMute" aria-label="Tirar som" aria-pressed="false">
+        <svg class="i-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <svg class="i-b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+      </button>
+      <button type="button" id="smFs" aria-label="Tela cheia">
+        <svg class="i-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+    <div class="sm-cap"><span id="smCap"></span><a id="smYt" href="#" target="_blank" rel="noopener">YouTube ↗</a></div>
+  </div>
+</div>
+
 <hr class="hr">
 
 <!-- ═══ BOOKING ═══ -->
@@ -479,6 +671,49 @@ footer > img{width:min(300px,64vw)}
       <div class="lbl">Booking</div>
       <h2 class="bk-h"><span class="bk-l1">Contrate</span><span class="bk-l2">Anti Hero</span></h2>
     </div>
+    <!-- FORMULÁRIO DE BOOKING
+         Ao enviar: (1) o pedido vai por e-mail via FormSubmit (formsubmit.co — sem senha/chave no código;
+         o e-mail já é público no site) e (2) o WhatsApp abre com a mensagem pronta.
+         Para trocar o destino: mude data-email e data-wa abaixo. -->
+    <form class="bk-form rv d1" id="bkForm" novalidate data-email="antiheromusic01@gmail.com" data-wa="5522998382612">
+      <fieldset class="bk-fs">
+        <legend><b>01</b>Contratante</legend>
+        <div class="bk-grid c2">
+          <div class="bk-f"><label for="bkNome">Nome<i>*</i></label><input id="bkNome" name="Nome" type="text" autocomplete="name" placeholder="Nome completo" required></div>
+          <div class="bk-f"><label for="bkEmail">E-mail<i>*</i></label><input id="bkEmail" name="E-mail" type="email" autocomplete="email" placeholder="seu@email.com" required></div>
+          <div class="bk-f"><label for="bkTel">WhatsApp<i>*</i></label><input id="bkTel" name="WhatsApp" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" required></div>
+          <div class="bk-f"><label for="bkEmpresa">Empresa / produtora</label><input id="bkEmpresa" name="Empresa / produtora" type="text" autocomplete="organization" placeholder="Opcional"></div>
+        </div>
+      </fieldset>
+      <fieldset class="bk-fs">
+        <legend><b>02</b>Evento</legend>
+        <div class="bk-grid">
+          <div class="bk-f"><label for="bkTipo">Tipo de evento</label>
+            <select id="bkTipo" name="Tipo de evento"><option value="">Selecionar</option><option>Festival</option><option>Clube / boate</option><option>Beach club</option><option>Festa open air</option><option>Evento privado</option><option>Corporativo</option><option>Outro</option></select></div>
+          <div class="bk-f"><label for="bkData">Data do evento<i>*</i></label><input id="bkData" name="Data do evento" type="date" required></div>
+          <div class="bk-f"><label for="bkHora">Horário do set</label><input id="bkHora" name="Horário do set" type="text" placeholder="Ex: 01h às 03h"></div>
+          <div class="bk-f"><label for="bkCidade">Cidade / estado<i>*</i></label><input id="bkCidade" name="Cidade / estado" type="text" autocomplete="address-level2" placeholder="Ex: Cabo Frio, RJ" required></div>
+          <div class="bk-f"><label for="bkLocal">Local / casa</label><input id="bkLocal" name="Local / casa" type="text" placeholder="Nome do espaço"></div>
+          <div class="bk-f"><label for="bkPublico">Quantidade de pessoas</label>
+            <select id="bkPublico" name="Quantidade de pessoas"><option value="">Selecionar</option><option>Até 200</option><option>200 a 500</option><option>500 a 1.000</option><option>1.000 a 3.000</option><option>Mais de 3.000</option></select></div>
+        </div>
+      </fieldset>
+      <fieldset class="bk-fs">
+        <legend><b>03</b>Proposta</legend>
+        <div class="bk-grid">
+          <div class="bk-f"><label for="bkCache">Valor do cachê</label><input id="bkCache" name="Valor do cachê" type="text" inputmode="decimal" placeholder="R$ 0,00"></div>
+          <div class="bk-f"><label for="bkDur">Duração do set</label>
+            <select id="bkDur" name="Duração do set"><option value="">Selecionar</option><option>1 hora</option><option>1h30</option><option>2 horas</option><option>3 horas ou mais</option></select></div>
+          <div class="bk-f"><label for="bkLog">Hospedagem e transporte</label>
+            <select id="bkLog" name="Hospedagem e transporte"><option value="">Selecionar</option><option>Inclusos pelo contratante</option><option>Não inclusos</option><option>A combinar</option></select></div>
+          <div class="bk-f full"><label for="bkMsg">Detalhes do evento</label><textarea id="bkMsg" name="Detalhes" placeholder="Line-up, estrutura de som e cabine, rider técnico, outras informações..."></textarea></div>
+        </div>
+      </fieldset>
+      <input class="bk-hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn-line red bk-send" id="bkSend" type="submit">Enviar</button>
+      <p class="bk-status" id="bkStatus" role="status" aria-live="polite" hidden></p>
+    </form>
+    <div class="bk-sep rv">ou contato direto</div>
     <!-- contato final: só ícones (assinatura). Os links estão no href de cada um. -->
     <nav class="bk-icons rv d1" aria-label="Contato">
       <a href="https://wa.me/5522998382612?text=Ol%C3%A1%2C+gostaria+de+fazer+um+booking+do+ANTI+HERO" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
@@ -487,6 +722,16 @@ footer > img{width:min(300px,64vw)}
       <a href="https://open.spotify.com/intl-pt/artist/2D0GU3K1ddYMpi1goUYsQu" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
       <a href="https://soundcloud.com/anti-hero-814238099" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.56 8.87V17h8.76c1.5-.09 2.68-1.35 2.68-2.87 0-1.58-1.27-2.87-2.84-2.87-.3 0-.6.05-.87.14C18.97 9.48 17.27 8 15.2 8c-1.35 0-2.6.32-3.64.87zM10.4 9.6V17h.6V9.24c-.2.11-.4.23-.6.36zM9.2 10.5V17h.6v-7c-.21.16-.41.33-.6.5zM8 11.3V17h.6v-6.2c-.2.16-.4.33-.6.5zM6.8 12V17h.6v-5.4c-.21.13-.41.26-.6.4zM5.6 12.4V17h.6v-4.9c-.2.1-.4.2-.6.3zM4.4 12.9V17h.6v-4.3c-.2.07-.4.14-.6.2zM3.2 13.3V17h.6v-3.8c-.2.03-.4.07-.6.1zM2 14.1V17h.6v-3.1c-.2.05-.4.12-.6.2z"/></svg></a>
     </nav>
+  </div>
+</section>
+
+<!-- ═══ PRESS KIT ═══  (pasta pública no Google Drive: fotos, logo e vídeo) -->
+<section id="presskit" aria-label="Press kit">
+  <div class="pk-in rv">
+    <a class="pk-btn" href="https://drive.google.com/drive/folders/1YpK8gzI13Bc3_GXnsJsCA3SzGqmx15ru" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>
+      Download Press Kit
+    </a>
   </div>
 </section>
 
@@ -517,6 +762,28 @@ footer > img{width:min(300px,64vw)}
   ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(ev => addEventListener(ev, kick, { once: true, passive: true }));
   // pausa quando o hero sai da tela (economiza CPU/bateria) e volta ao reaparecer
   new IntersectionObserver(([e]) => { e.isIntersecting ? tryPlay() : v.pause(); }).observe($('#hero'));
+
+  /* celular: o fundo desfocado copia o centro do vídeo a ~20 quadros/s num canvas de 36×64
+     (o CSS amplia e desfoca). Não roda no desktop nem com o vídeo parado. */
+  const fillC = $('.hero-fill canvas'), mqMob = matchMedia('(max-width: 900px), (max-aspect-ratio: 1/1)');
+  if (fillC && fillC.getContext) {
+    const cx = fillC.getContext('2d');
+    let raf = 0, last = 0;
+    const draw = t => {
+      raf = 0;
+      if (!mqMob.matches || v.paused || v.ended) return;
+      if (t - last > 48 && v.readyState >= 2 && v.videoWidth) {
+        last = t;
+        const sw = v.videoHeight * fillC.width / fillC.height;          // recorte 9:16 do centro
+        try { cx.drawImage(v, (v.videoWidth - sw) / 2, 0, sw, v.videoHeight, 0, 0, fillC.width, fillC.height); } catch (e) {}
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    const start = () => { if (!raf) raf = requestAnimationFrame(draw); };
+    v.addEventListener('playing', start);
+    mqMob.addEventListener && mqMob.addEventListener('change', start);
+    start();
+  }
 
   /* ── MÚSICA ──────────────────────────────────────────
      O site abre em silêncio (política dos navegadores). O botão de som
@@ -645,6 +912,168 @@ footer > img{width:min(300px,64vw)}
     if (!lb.classList.contains('open')) return;
     if (e.key === 'ArrowRight') show(idx + 1);
     if (e.key === 'ArrowLeft') show(idx - 1);
+  });
+
+  /* ── SETS: capa horizontal → player em tela sobreposta ─────────
+     Horizontal: iframe normal do YouTube (controles dele).
+     Vertical: API do YouTube sem controles, janela 9:16 recortando só as
+     barras pretas, e controles próprios embaixo. Sem JS a capa abre o YouTube.
+     A música do site sai em fade quando um set abre. */
+  const sm = $('#sm'), smBox = $('#smBox'), smPlay = $('#smPlay'), smSeek = $('#smSeek'),
+        smTime = $('#smTime'), smMute = $('#smMute'), smFs = $('#smFs');
+  let ytApi = null, player = null, poll = 0, dragging = false, lastCover = null;
+  const loadYT = () => ytApi || (ytApi = new Promise((res, rej) => {
+    if (window.YT && YT.Player) return res();
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { if (prev) prev(); res(); };
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.onerror = () => { ytApi = null; rej(); };
+    document.head.appendChild(s);
+  }));
+  const hms = t => {
+    t = Math.max(0, Math.floor(t || 0));
+    const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = String(t % 60).padStart(2, '0');
+    return h ? `${h}:${String(m).padStart(2, '0')}:${s}` : `${m}:${s}`;
+  };
+  const plainIframe = a => {
+    const f = document.createElement('iframe');
+    f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?start=${a.dataset.start}&autoplay=1&rel=0&playsinline=1`;
+    f.title = a.dataset.title;
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    f.allowFullscreen = true;
+    smBox.replaceChildren(f);
+  };
+  const syncCtl = () => {
+    if (!player || !player.getPlayerState) return;
+    const st = player.getPlayerState();
+    const paused = st !== 1 && st !== 3;                 // 1 tocando, 3 carregando
+    smPlay.setAttribute('aria-pressed', String(paused));
+    smPlay.setAttribute('aria-label', paused ? 'Tocar' : 'Pausar');
+    const muted = player.isMuted();
+    smMute.setAttribute('aria-pressed', String(muted));
+    smMute.setAttribute('aria-label', muted ? 'Ligar som' : 'Tirar som');
+    const d = player.getDuration() || 0, t = player.getCurrentTime() || 0;
+    if (!dragging && d) smSeek.value = Math.round(t / d * 1000);
+    smSeek.style.setProperty('--p', (smSeek.value / 10) + '%');
+    smTime.textContent = d ? `${hms(dragging ? smSeek.value / 1000 * d : t)} / ${hms(d)}` : hms(t);
+  };
+  const openSet = a => {
+    lastCover = a;
+    sm.dataset.fmt = a.dataset.fmt;
+    $('#smCap').textContent = a.dataset.title;
+    $('#smYt').href = a.href;
+    smSeek.value = 0; smSeek.style.setProperty('--p', '0%'); smTime.textContent = '0:00';
+    if (!au.paused) fade(0, () => au.pause());
+    if (a.dataset.fmt === 'v') {
+      smBox.innerHTML = '<div id="smPlayer"></div>';
+      loadYT().then(() => {
+        if (!sm.classList.contains('open') || lastCover !== a) return;
+        player = new YT.Player('smPlayer', {
+          host: 'https://www.youtube-nocookie.com',
+          videoId: a.dataset.yt,
+          playerVars: { start: +a.dataset.start, autoplay: 1, controls: 0, rel: 0, playsinline: 1, fs: 0, iv_load_policy: 3, disablekb: 1 },
+          events: { onReady: e => { e.target.playVideo(); syncCtl(); }, onStateChange: syncCtl }
+        });
+        clearInterval(poll); poll = setInterval(syncCtl, 250);
+      }).catch(() => { sm.dataset.fmt = 'h'; plainIframe(a); });   // API bloqueada: player normal
+    } else plainIframe(a);
+    sm.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    $('#smX').focus();
+  };
+  const closeSet = () => {
+    if (!sm.classList.contains('open')) return;
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    sm.classList.remove('open');
+    document.body.style.overflow = '';
+    clearInterval(poll);
+    if (player && player.destroy) player.destroy();
+    player = null;
+    smBox.replaceChildren();                              // para o som na hora
+    if (lastCover) lastCover.focus({ preventScroll: true });
+  };
+  $$('.set-cover').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); openSet(a); });
+    if (a.dataset.fmt === 'v') ['pointerenter', 'touchstart', 'focus'].forEach(ev =>   // adianta a API
+      a.addEventListener(ev, () => { loadYT().catch(() => {}); }, { once: true, passive: true }));
+  });
+  $('#smX').addEventListener('click', closeSet);
+  sm.addEventListener('click', e => { if (e.target === sm) closeSet(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeSet(); });
+  smPlay.addEventListener('click', () => {
+    if (!player || !player.getPlayerState) return;
+    const st = player.getPlayerState();
+    if (st === 1 || st === 3) player.pauseVideo(); else player.playVideo();
+  });
+  smMute.addEventListener('click', () => {
+    if (!player || !player.isMuted) return;
+    if (player.isMuted()) player.unMute(); else player.mute();
+    setTimeout(syncCtl, 60);
+  });
+  smSeek.addEventListener('input', () => { dragging = true; syncCtl(); });
+  smSeek.addEventListener('change', () => {
+    dragging = false;
+    if (player && player.getDuration) player.seekTo(smSeek.value / 1000 * player.getDuration(), true);
+  });
+  if (!document.fullscreenEnabled) smFs.hidden = true;   // iPhone: a janela já ocupa a tela
+  smFs.addEventListener('click', () => {
+    if (document.fullscreenElement) document.exitFullscreen(); else sm.requestFullscreen().catch(() => {});
+  });
+  /* ── FORMULÁRIO DE BOOKING ─────────────────────────────
+     1) WhatsApp: abre na hora do clique (dentro do gesto, o navegador não bloqueia)
+        com todos os campos preenchidos.
+     2) E-mail: FormSubmit (formsubmit.co) em segundo plano. Sem senha nem chave no
+        código — o endereço já é público no site. Na 1ª vez o FormSubmit manda um
+        e-mail de ativação para o endereço; depois disso os pedidos chegam direto. */
+  const bk = $('#bkForm'), bkSend = $('#bkSend'), bkStatus = $('#bkStatus');
+  const bkDate = $('#bkData');
+  bkDate.min = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  const cache = $('#bkCache');
+  cache.addEventListener('blur', () => {                       // "3000" → "R$ 3.000,00"
+    const n = parseFloat(cache.value.replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'));
+    if (!isNaN(n)) cache.value = n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  });
+  const say = (cls, html) => { bkStatus.className = 'bk-status ' + cls; bkStatus.innerHTML = html; bkStatus.hidden = false; };
+  bk.addEventListener('input', e => e.target.classList.remove('bad'));
+  bk.addEventListener('submit', e => {
+    e.preventDefault();
+    const req = [...bk.querySelectorAll('[required]')];
+    const bad = req.filter(f => !f.value.trim() || (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim())));
+    req.forEach(f => f.classList.toggle('bad', bad.includes(f)));
+    if (bad.length) {
+      say('err', 'Preencha os campos marcados: ' + bad.map(f => bk.querySelector(`label[for="${f.id}"]`).firstChild.textContent).join(', ') + '.');
+      bad[0].focus();
+      return;
+    }
+    if (bk._honey.value) return;                                  // robô
+    // campos preenchidos, na ordem do formulário
+    const rows = [...bk.querySelectorAll('.bk-f input, .bk-f select, .bk-f textarea')]
+      .filter(f => f.value.trim())
+      .map(f => [f.name, f.type === 'date' ? f.value.split('-').reverse().join('/') : f.value.trim()]);
+    // 1) WhatsApp
+    const wa = '*PEDIDO DE BOOKING — ANTI HERO*\n\n' + rows.map(([k, v]) => `*${k}:* ${v}`).join('\n');
+    const waUrl = `https://wa.me/${bk.dataset.wa}?text=${encodeURIComponent(wa)}`;
+    window.open(waUrl, '_blank', 'noopener');
+    // 2) E-mail
+    const fd = new FormData();
+    rows.forEach(([k, v]) => fd.append(k, v));
+    const quando = rows.find(r => r[0] === 'Data do evento'), onde = rows.find(r => r[0] === 'Cidade / estado');
+    fd.append('_subject', `Booking ANTI HERO — ${quando ? quando[1] : ''} · ${onde ? onde[1] : ''}`);
+    fd.append('_replyto', bk.querySelector('#bkEmail').value.trim());
+    fd.append('_template', 'table');
+    fd.append('_captcha', 'false');
+    bkSend.disabled = true; bkSend.textContent = 'Enviando…';
+    const waLink = `<a href="${waUrl}" target="_blank" rel="noopener">abrir o WhatsApp de novo</a>`;
+    fetch(`https://formsubmit.co/ajax/${bk.dataset.email}`, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, keepalive: true })
+      .then(r => r.json().catch(() => ({})).then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
+      .then(() => {
+        say('ok', `Pedido enviado. Recebemos por e-mail e o WhatsApp abriu com a mensagem pronta — se não abriu, ${waLink}.`);
+        bk.reset();
+      })
+      .catch(() => say('err', `Não foi possível enviar o e-mail agora. O WhatsApp abriu com todas as informações — se não abriu, ${waLink}.`))
+      .finally(() => { bkSend.disabled = false; bkSend.textContent = 'Enviar'; });
   });
 })();
 </script>
