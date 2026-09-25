@@ -248,6 +248,13 @@ html:not(.js) .ln-name .c{transform:none;opacity:1}
 .a3{grid-column:span 5;aspect-ratio:3/2}
 .a4{grid-column:span 7}
 .a5{grid-column:span 12;aspect-ratio:21/9}
+/* continuação: pares horizontal + vertical alternando o lado (azul → vermelho → P&B → quente) e fecho em tríptico */
+.b8{grid-column:span 8;aspect-ratio:16/9}
+.b8w{grid-column:span 8;aspect-ratio:3/2}
+.b4{grid-column:span 4}
+.b6{grid-column:span 6;aspect-ratio:1440/1145}
+.b3{grid-column:span 3}
+.b4 img,.b3 img{position:absolute;inset:0}   /* a vertical acompanha a altura da horizontal da mesma linha */
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:800;background:rgba(6,6,8,.96);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
@@ -442,14 +449,19 @@ footer > img{width:min(300px,64vw)}
   .hero-scroll{display:none}
     .btn-line{padding:0 22px;letter-spacing:.24em}
   .tr-row{grid-template-columns:1fr;gap:8px;padding:22px 0}
-  .ag{grid-template-columns:1fr;gap:10px}
-  .a1,.a2,.a3,.a4,.a5{grid-column:auto;aspect-ratio:3/2}
+  .ag{grid-template-columns:1fr 1fr;gap:10px}
+  .a1,.a2,.a3,.a4,.a5{grid-column:1 / -1;aspect-ratio:3/2}
+  .b8,.b8w,.b6{grid-column:1 / -1}
+  .b4,.b3{grid-column:auto;aspect-ratio:2/3}
+  .b6{order:1}.b3{order:2}   /* no celular o tríptico vira: foto larga + par de verticais */
     .lineup{margin-top:80px}
   .ln-venues{flex-direction:column;gap:4px}
   .ln-venues i{display:none}
   /* sets: capas uma embaixo da outra (continuam horizontais) */
   .sets-list{gap:14px}
   .sm-x{top:8px}
+  /* booking: no celular o formulário não aparece (só no desktop/tablet) */
+  .bk-form{display:none}
   /* booking: um campo por linha; 16px evita o zoom automático do iPhone */
   .bk-grid,.bk-grid.c2{grid-template-columns:1fr;gap:16px}
   .bk-f input,.bk-f select,.bk-f textarea{font-size:16px}
@@ -584,12 +596,13 @@ footer > img{width:min(300px,64vw)}
       <div class="ln-name" id="lnName">Volkoder</div>
       <div class="ln-meta"><span id="lnIdx">01</span><i></i><span id="lnTot">10</span></div>
     </div>
-    <p class="ln-venues rv"><span>Privìlege</span><i></i><span>Fishbone</span><i></i><span>Festa oficial da Corona</span></p>
+    <p class="ln-venues rv"><span>Privìlege</span><i></i><span>Fishbone</span><i></i><span>Festa oficial da Corona</span><i></i><span>Estádio Morumbi</span><i></i><span>Beatz</span><i></i><span>Booze</span><i></i><span>So High</span></p>
   </div>
 </div></section>
 
 <!-- ═══ GALERIA ═══
-     FOTOS: substitua em assets/img/ mantendo os nomes. Use fotos HORIZONTAIS (3:2), ~1600px, JPG ~80%. -->
+     FOTOS: substitua em assets/img/ mantendo os nomes (~1600px, JPG ~80%).
+     a1–a5: bloco original (horizontais 3:2). b8/b8w (horizontal) + b4 (vertical) formam pares; b3 + b6 + b3 = tríptico final. -->
 <section id="galeria"><div class="sw">
   <div class="rv">
     <div class="lbl">Galeria</div>
@@ -601,6 +614,17 @@ footer > img{width:min(300px,64vw)}
     <figure class="gi a3 rv"><img src="assets/img/antihero-04.jpg" alt="Anti Hero mixando, em preto e branco" width="1280" height="853" loading="lazy" decoding="async"></figure>
     <figure class="gi a4 rv d1"><img src="assets/img/antihero-06.jpg" alt="Casa lotada vista do fundo da pista, em luz vermelha" width="1280" height="853" loading="lazy" decoding="async"></figure>
     <figure class="gi a5 rv"><img src="assets/img/antihero-09.jpg" alt="Pista lotada com feixes de luz azul e o logo ANTI HERO no palco" width="1280" height="853" loading="lazy" decoding="async" style="object-position:center 55%"></figure>
+    <figure class="gi b8 rv"><img src="assets/img/antihero-10.jpg" alt="Anti Hero de costas, braço erguido, diante da multidão no Carnaval" width="1600" height="898" loading="lazy" decoding="async"></figure>
+    <figure class="gi b4 d1 rv"><img src="assets/img/antihero-11.jpg" alt="Anti Hero na cabine ao lado de Filipe Ret, os dois sorrindo" width="933" height="1400" loading="lazy" decoding="async" style="object-position:50% 30%"></figure>
+    <figure class="gi b4 rv"><img src="assets/img/antihero-12.jpg" alt="Anti Hero na cabine da So High, sob luz vermelha, com o letreiro aceso" width="933" height="1400" loading="lazy" decoding="async" style="object-position:50% 45%"></figure>
+    <figure class="gi b8w d1 rv"><img src="assets/img/antihero-13.jpg" alt="Anti Hero tocando entre fumaça vermelha e luzes azuis" width="1600" height="1067" loading="lazy" decoding="async"></figure>
+    <figure class="gi b8 rv"><img src="assets/img/antihero-14.jpg" alt="Anti Hero de costas, de fones, diante do público do Carnaval, em preto e branco" width="1600" height="898" loading="lazy" decoding="async"></figure>
+    <figure class="gi b4 d1 rv"><img src="assets/img/antihero-15.jpg" alt="Anti Hero de fones na cabine da So High, sob feixes de luz, em preto e branco" width="933" height="1400" loading="lazy" decoding="async" style="object-position:50% 50%"></figure>
+    <figure class="gi b4 rv"><img src="assets/img/antihero-16.jpg" alt="Cabine da Fishbone iluminada em verde e amarelo" width="1050" height="1400" loading="lazy" decoding="async" style="object-position:50% 55%"></figure>
+    <figure class="gi b8w d1 rv"><img src="assets/img/antihero-17.jpg" alt="Anti Hero dividindo a cabine sob as luzes laranja da festa da Corona" width="1600" height="1067" loading="lazy" decoding="async"></figure>
+    <figure class="gi b3 rv"><img src="assets/img/antihero-18.jpg" alt="Anti Hero ao lado de Volkoder nos bastidores" width="1050" height="1400" loading="lazy" decoding="async" style="object-position:50% 22%"></figure>
+    <figure class="gi b6 d1 rv"><img src="assets/img/antihero-19.jpg" alt="Anti Hero com o braço erguido diante da multidão do Carnaval" width="1440" height="1145" loading="lazy" decoding="async"></figure>
+    <figure class="gi b3 d2 rv"><img src="assets/img/antihero-20.jpg" alt="Cabine da So High com o letreiro aceso" width="933" height="1400" loading="lazy" decoding="async" style="object-position:50% 60%"></figure>
   </div>
 </div></section>
 
